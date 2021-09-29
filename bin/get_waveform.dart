@@ -166,21 +166,26 @@ List<WavSubChunk> extractWavHeader(Uint8List data) {
   return subchunks;
 }
 
-Future<List<int>> getWavefrom(String path) async {
-  var result = await Process.run('ffmpeg', ['-i', path, '-f', 'wav', '-']);
+// Future<List<int>> getWavefrom(String path) async {
+//   var result = await Process.run('ffmpeg', ['-i', path, '-f', 'wav', '-']);
 
-  var file = File("./aaaaa");
-  file.writeAsStringSync(result.stdout);
-
-  var out = Uint8List.fromList(result.stdout.codeUnits);
-  var fixed = fixWavHeaders(out);
-  var wav = readWavAudio(fixed);
-  return unpackFrom(getArrayType(wav.bitDepth), Endian.little, wav.rawData);
-}
+//   var out = Uint8List.fromList(result.stdout.codeUnits);
+//   var fixed = fixWavHeaders(out);
+//   var wav = readWavAudio(fixed);
+//   return unpackFrom(getArrayType(wav.bitDepth), Endian.little, wav.rawData);
+// }
 
 void main(List<String> arguments) async {
   // var path = './assets/MissFireSystem.mp3';
   // var waveform = await getWavefrom(path);
+
+  await Process.run('ffmpeg', [
+    '-i',
+    './assets/MissFireSystem.mp3',
+    '-f',
+    'wav',
+    './assets/MissFireSystem.wav'
+  ]);
 
   var file = File("./assets/MissFireSystem.wav");
   var bytes = file.readAsBytesSync();
